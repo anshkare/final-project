@@ -4,7 +4,8 @@ author: "Ansh Kare"
 ---
 
 
-```{r}
+```{r include = FALSE, message=FALSE}
+#| echo: false
 library(tidyverse)
 library(brms)
 library(dplyr)
@@ -13,8 +14,8 @@ library(readr)
 ```
 
 
-```{r}
-
+```{r include=FALSE, message=FALSE}
+#| echo: false
 
 kobe_data <- read_csv("kobebryant.csv")
 
@@ -33,8 +34,8 @@ kobe_data$season <- as.numeric(kobe_data$season)
 kobe_data <- na.omit(kobe_data)
 
 ```
-```{r}
 
+```{r include = FALSE, message=FALSE}
 fit <- brm(
   formula = assists ~ age + turnovers + point_difference ,
   data = kobe_data,
@@ -50,6 +51,7 @@ fit <- brm(
 ```
 
 ```{r}
+
 fixef(fit)
 ```
 

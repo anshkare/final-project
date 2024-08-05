@@ -1,0 +1,14 @@
+---
+title: "About"
+---
+
+About this site
+
+I am a highschooler at Green Level, who is interested in data science and AI.
+
+[My Github](https://github.com/anshkare)
+
+My email: aekare03@gmail.com
+
+This project was created as a part of
+[Kane’s Data Science](https://bootcamp.davidkane.info/)
