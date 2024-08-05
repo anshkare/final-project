@@ -1,7 +1,14 @@
 ---
-title: "Kobel-model"
+title: "Plots & Info"
 ---
 
-This is a Quarto website.
 
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
+---
+title: "Kobe Model"
+author: "Ansh Kare"
+format: html
+---
+
+
+Many people have accused Kobe Bryant of being a ball-hog. I wanted to see what would statistically increase the chances of Kobe passing a ball in a given game. sing a dataset with each and every stat recorded of Kobe Bryant from the start of his career to his retirement, we seek to predict what will increase Kobe's likelihood of passing more in a game. We modeled assists as a linear function, with variables like Kobe's age, the amount of turnovers by Kobe, and the point_difference in a game. With each increase in point difference, Kobe is 3% more likely to pass the ball.  
+

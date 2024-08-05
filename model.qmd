@@ -1,0 +1,55 @@
+---
+title: "model"
+author: "Ansh Kare"
+---
+
+
+```{r}
+library(tidyverse)
+library(brms)
+library(dplyr)
+library(readr)
+
+```
+
+
+```{r}
+
+
+kobe_data <- read_csv("kobebryant.csv")
+
+kobe_data$game_type <- ifelse(kobe_data$game_type == "playoff", 1, 0)
+
+names(kobe_data) <- gsub("^\\d", "var_", names(kobe_data))
+
+kobe_data$assists <- as.numeric(kobe_data$assists)
+
+
+kobe_data$fieldgoal_percent <- as.numeric(kobe_data$fieldgoal_percent)
+kobe_data$point_difference <- as.numeric(kobe_data$point_difference)
+kobe_data$turnovers <- as.numeric(kobe_data$turnovers)
+kobe_data$season <- as.numeric(kobe_data$season)
+
+kobe_data <- na.omit(kobe_data)
+
+```
+```{r}
+
+fit <- brm(
+  formula = assists ~ age + turnovers + point_difference ,
+  data = kobe_data,
+  family = gaussian(),
+  chains = 4,
+  iter = 2000,
+  warmup = 1000,
+  silent =2,
+  refresh = 0,
+  seed = 9
+)
+
+```
+
+```{r}
+fixef(fit)
+```
+
