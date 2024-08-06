@@ -689,18 +689,10 @@ point_difference 0.03419051 0.005416374 0.02335165 0.04464438</code></pre>
 </div>
 </div>
 </div>
-<pre><code>**Age:**
-•   Mean (27.21): On average, Kobe Bryant was 27.21 years old during the period covered by the data. He played his most games this year. In sports terms this would be considered his 'prime'.
-•   Standard Deviation (5.13): There was a variability of 5.13 years in his age across the dataset, indicating the spread of ages around the mean.
-**Turnovers:**
-•   Mean (3.02): Kobe committed an average of 3.02 turnovers per game.
-•   Standard Deviation (1.87): The number of turnovers varied by 1.87 from the mean, reflecting how much turnover counts fluctuated in different games.
-**Point Difference:**
-•   Mean (3.03): On average, the point difference in games involving Kobe was 3.03 points, meaning his games were decided by this margin.
-•   Standard Deviation (13.10): There was a high variability of 13.10 in the point difference, showing that some games had very large margins of victory or defeat.
-**Assists:**
-•   Mean (4.83): Kobe averaged 4.83 assists per game.
-•   Standard Deviation (2.71): The number of assists varied by 2.71 from the mean, indicating how much the assists count fluctuated in his games.</code></pre>
+<p>Age: • Mean (27.21): On average, Kobe Bryant was 27.21 years old during the period covered by the data. He played his most games this year. In sports terms this would be considered his ‘prime’.</p>
+<p>Turnovers: • Mean (3.02): Kobe committed an average of 3.02 turnovers per game.</p>
+<p>Point Difference: • Mean (3.03): On average, the point difference in games involving Kobe was 3.03 points, meaning his games were decided by this margin.</p>
+<p>Assists: • Mean (4.83): Kobe averaged 4.83 assists per game.</p>
 
 
 
@@ -786,7 +778,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   });
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp('/' + window.location.host + '/');
+      var filterRegex = new RegExp("https:\/\/anshkare\.github\.io\/kobe-project\/");
     var isInternal = (href) => {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
