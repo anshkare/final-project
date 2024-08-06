@@ -2,7 +2,7 @@ project:
   type: website
 
 website:
-  title: "Kobel-model"
+  title: "What increases the liklihood of Kobe Passing the ball"
   navbar:
     left:
       - href: index.qmd
@@ -16,6 +16,7 @@ format:
     theme: cosmo
     css: styles.css
     toc: true
+
 
 
 

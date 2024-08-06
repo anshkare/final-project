@@ -1,4 +1,6 @@
 ---
-title: "sources"
+title: "Sources"
 format: html
 ---
+
+I used data from a public dataset from [kaggle](https://www.kaggle.com/datasets/alfredkondoro/exploring-kobe-bryants-nba-journey?select=kobebryant.csv). Removing any missing values, in this case meaning missed games by Kobe, I cleaned the data and selected values that had statistical significance that affected Kobe's assists per game.

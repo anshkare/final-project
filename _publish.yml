@@ -1,0 +1,4 @@
+- source: project
+  quarto-pub:
+    - id: e293aa78-2649-48d1-9ddc-636a4e4b3f4f
+      url: 'https://anshk.quarto.pub/kobe-project'

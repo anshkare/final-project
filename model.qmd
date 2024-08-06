@@ -1,15 +1,22 @@
 ---
-title: "model"
-author: "Ansh Kare"
+title: "Model"
 ---
 
+```{r, echo=FALSE, results='asis'}
+cat("$$\n\\text{assists} = \\beta_0 + \\beta_1 \\cdot \\text{age} + \\beta_2 \\cdot \\text{turnovers} + \\beta_3 \\cdot \\text{point\\_difference} + \\epsilon\n$$")
+```
 
-```{r include = FALSE, message=FALSE}
+
+
+```{r}
+#| message: false
+#| include: false
 #| echo: false
 library(tidyverse)
 library(brms)
 library(dplyr)
 library(readr)
+library(gtsummary)
 
 ```
 
@@ -36,6 +43,7 @@ kobe_data <- na.omit(kobe_data)
 ```
 
 ```{r include = FALSE, message=FALSE}
+#| cache: true
 fit <- brm(
   formula = assists ~ age + turnovers + point_difference ,
   data = kobe_data,
@@ -47,11 +55,58 @@ fit <- brm(
   refresh = 0,
   seed = 9
 )
+# Obtain posterior predictions
+preds <- posterior_predict(fit)
+
+# Calculate the mean of the predictions
+kobe_data$predicted_assists <- apply(preds, 2, mean)
+```
+
+
+```{r echo=FALSE, message=FALSE}
+
+ggplot(kobe_data, aes(x = assists, y = predicted_assists)) +
+  geom_point(aes(color = assists)) +
+  geom_smooth(method = "lm", color = "#c57af6", se = FALSE) +
+  scale_color_gradient(low = "#F1C40F", high = "#552583")+
+  labs(x = "Actual Assists", y = "Predicted Assists",
+       title = "Actual vs. Predicted Assists") +
+  theme_minimal()
 
 ```
 
-```{r}
+
+```{r echo=FALSE}
 
 fixef(fit)
 ```
+When Kobe was in his first year in the NBA, he was averaging 2.5 APG. With each year he passed an additional 5% each year. With each turnover Kobe had, he passed an additional 27%, and with each additional point difference Kobe's team had he passed an additional 3%.
+```{r echo=FALSE}
+library(gtsummary)
+
+# Assuming kobe_data has columns 'age', 'turnovers', 'point_difference', and 'assists'
+summary_table <- tbl_summary(
+  kobe_data %>% select(age, turnovers, point_difference, assists),
+  statistic = list(all_continuous() ~ "{mean} ({sd})"),  # Mean and standard deviation
+  digits = all_continuous() ~ 2  # Number of decimal places
+) %>%
+  modify_header(label ~ "**Characteristic**") %>%
+  modify_caption("**Summary of Predictors and Assists**")
+
+# Print the summary table
+summary_table
+```
+
+Age:
+	•	Mean (27.21): On average, Kobe Bryant was 27.21 years old during the period covered by the data. He played his most games this year. In sports terms this would be considered his 'prime'.
+
+Turnovers:
+	•	Mean (3.02): Kobe committed an average of 3.02 turnovers per game.
+
+Point Difference:
+	•	Mean (3.03): On average, the point difference in games involving Kobe was 3.03 points, meaning his games were decided by this margin.
+
+Assists:
+	•	Mean (4.83): Kobe averaged 4.83 assists per game.
+	
 
