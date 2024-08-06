@@ -1,2 +1,2 @@
 # kobe-project
-https://anshk.quarto.pub/kobel-model/
+https://anshk.quarto.pub/kobe-project/
