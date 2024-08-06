@@ -6,9 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Ansh Kare">
 
-<title>Kobel-model - Model</title>
+<title>What increases the liklihood of Kobe Passing the ball - Model</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,40 +19,6 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
-}
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -143,7 +108,7 @@ window.Quarto = {
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="./index.html">
-    <span class="navbar-title">Kobel-model</span>
+    <span class="navbar-title">What increases the liklihood of Kobe Passing the ball</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -194,12 +159,6 @@ window.Quarto = {
 
 <div class="quarto-title-meta">
 
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Ansh Kare </p>
-          </div>
-  </div>
     
   
     
@@ -211,10 +170,18 @@ window.Quarto = {
 
 
 <p><span class="math display">\[
-\text{assists} \sim \text{age} + \text{turnovers} + \text{point_difference}
+\text{assists} = \beta_0 + \beta_1 \cdot \text{age} + \beta_2 \cdot \text{turnovers} + \beta_3 \cdot \text{point\_difference} + \epsilon
 \]</span></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fixef</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="model_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
 <div class="cell-output cell-output-stdout">
 <pre><code>                   Estimate   Est.Error       Q2.5      Q97.5
 Intercept        2.54207675 0.394465832 1.77495157 3.31729006
@@ -225,38 +192,25 @@ point_difference 0.03419051 0.005416374 0.02335165 0.04464438</code></pre>
 </div>
 <p>When Kobe was in his first year in the NBA, he was averaging 2.5 APG. With each year he passed an additional 5% each year. With each turnover Kobe had, he passed an additional 27%, and with each additional point difference Kobe’s team had he passed an additional 3%.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gtsummary)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Assuming kobe_data has columns 'age', 'turnovers', 'point_difference', and 'assists'</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>summary_table <span class="ot">&lt;-</span> <span class="fu">tbl_summary</span>(</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  kobe_data <span class="sc">%&gt;%</span> <span class="fu">select</span>(age, turnovers, point_difference, assists),</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">statistic =</span> <span class="fu">list</span>(<span class="fu">all_continuous</span>() <span class="sc">~</span> <span class="st">"{mean} ({sd})"</span>),  <span class="co"># Mean and standard deviation</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">digits =</span> <span class="fu">all_continuous</span>() <span class="sc">~</span> <span class="dv">2</span>  <span class="co"># Number of decimal places</span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">modify_header</span>(label <span class="sc">~</span> <span class="st">"**Characteristic**"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">modify_caption</span>(<span class="st">"**Summary of Predictors and Assists**"</span>)</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the summary table</span></span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>summary_table</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<div id="ekxtnxfljl" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#ekxtnxfljl table {
+<div id="uijihcxypf" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#uijihcxypf table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#ekxtnxfljl thead, #ekxtnxfljl tbody, #ekxtnxfljl tfoot, #ekxtnxfljl tr, #ekxtnxfljl td, #ekxtnxfljl th {
+#uijihcxypf thead, #uijihcxypf tbody, #uijihcxypf tfoot, #uijihcxypf tr, #uijihcxypf td, #uijihcxypf th {
   border-style: none;
 }
 
-#ekxtnxfljl p {
+#uijihcxypf p {
   margin: 0;
   padding: 0;
 }
 
-#ekxtnxfljl .gt_table {
+#uijihcxypf .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -282,12 +236,12 @@ point_difference 0.03419051 0.005416374 0.02335165 0.04464438</code></pre>
   border-left-color: #D3D3D3;
 }
 
-#ekxtnxfljl .gt_caption {
+#uijihcxypf .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#ekxtnxfljl .gt_title {
+#uijihcxypf .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -299,7 +253,7 @@ point_difference 0.03419051 0.005416374 0.02335165 0.04464438</code></pre>
   border-bottom-width: 0;
 }
 
-#ekxtnxfljl .gt_subtitle {
+#uijihcxypf .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -311,7 +265,7 @@ point_difference 0.03419051 0.005416374 0.02335165 0.04464438</code></pre>
   border-top-width: 0;
 }
 
-#ekxtnxfljl .gt_heading {
+#uijihcxypf .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -323,13 +277,13 @@ point_difference 0.03419051 0.005416374 0.02335165 0.04464438</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#ekxtnxfljl .gt_bottom_border {
+#uijihcxypf .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#ekxtnxfljl .gt_col_headings {
+#uijihcxypf .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -344,7 +298,7 @@ point_difference 0.03419051 0.005416374 0.02335165 0.04464438</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#ekxtnxfljl .gt_col_heading {
+#uijihcxypf .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -364,7 +318,7 @@ point_difference 0.03419051 0.005416374 0.02335165 0.04464438</code></pre>
   overflow-x: hidden;
 }
 
-#ekxtnxfljl .gt_column_spanner_outer {
+#uijihcxypf .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -376,15 +330,15 @@ point_difference 0.03419051 0.005416374 0.02335165 0.04464438</code></pre>
   padding-right: 4px;
 }
 
-#ekxtnxfljl .gt_column_spanner_outer:first-child {
+#uijihcxypf .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#ekxtnxfljl .gt_column_spanner_outer:last-child {
+#uijihcxypf .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#ekxtnxfljl .gt_column_spanner {
+#uijihcxypf .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -396,11 +350,11 @@ point_difference 0.03419051 0.005416374 0.02335165 0.04464438</code></pre>
   width: 100%;
 }
 
-#ekxtnxfljl .gt_spanner_row {
+#uijihcxypf .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#ekxtnxfljl .gt_group_heading {
+#uijihcxypf .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -426,7 +380,7 @@ point_difference 0.03419051 0.005416374 0.02335165 0.04464438</code></pre>
   text-align: left;
 }
 
-#ekxtnxfljl .gt_empty_group_heading {
+#uijihcxypf .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -441,15 +395,15 @@ point_difference 0.03419051 0.005416374 0.02335165 0.04464438</code></pre>
   vertical-align: middle;
 }
 
-#ekxtnxfljl .gt_from_md > :first-child {
+#uijihcxypf .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#ekxtnxfljl .gt_from_md > :last-child {
+#uijihcxypf .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#ekxtnxfljl .gt_row {
+#uijihcxypf .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -468,7 +422,7 @@ point_difference 0.03419051 0.005416374 0.02335165 0.04464438</code></pre>
   overflow-x: hidden;
 }
 
-#ekxtnxfljl .gt_stub {
+#uijihcxypf .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -481,7 +435,7 @@ point_difference 0.03419051 0.005416374 0.02335165 0.04464438</code></pre>
   padding-right: 5px;
 }
 
-#ekxtnxfljl .gt_stub_row_group {
+#uijihcxypf .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -495,15 +449,15 @@ point_difference 0.03419051 0.005416374 0.02335165 0.04464438</code></pre>
   vertical-align: top;
 }
 
-#ekxtnxfljl .gt_row_group_first td {
+#uijihcxypf .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#ekxtnxfljl .gt_row_group_first th {
+#uijihcxypf .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#ekxtnxfljl .gt_summary_row {
+#uijihcxypf .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -513,16 +467,16 @@ point_difference 0.03419051 0.005416374 0.02335165 0.04464438</code></pre>
   padding-right: 5px;
 }
 
-#ekxtnxfljl .gt_first_summary_row {
+#uijihcxypf .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#ekxtnxfljl .gt_first_summary_row.thick {
+#uijihcxypf .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#ekxtnxfljl .gt_last_summary_row {
+#uijihcxypf .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -532,7 +486,7 @@ point_difference 0.03419051 0.005416374 0.02335165 0.04464438</code></pre>
   border-bottom-color: #D3D3D3;
 }
 
-#ekxtnxfljl .gt_grand_summary_row {
+#uijihcxypf .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -542,7 +496,7 @@ point_difference 0.03419051 0.005416374 0.02335165 0.04464438</code></pre>
   padding-right: 5px;
 }
 
-#ekxtnxfljl .gt_first_grand_summary_row {
+#uijihcxypf .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -552,7 +506,7 @@ point_difference 0.03419051 0.005416374 0.02335165 0.04464438</code></pre>
   border-top-color: #D3D3D3;
 }
 
-#ekxtnxfljl .gt_last_grand_summary_row_top {
+#uijihcxypf .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -562,11 +516,11 @@ point_difference 0.03419051 0.005416374 0.02335165 0.04464438</code></pre>
   border-bottom-color: #D3D3D3;
 }
 
-#ekxtnxfljl .gt_striped {
+#uijihcxypf .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#ekxtnxfljl .gt_table_body {
+#uijihcxypf .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -575,7 +529,7 @@ point_difference 0.03419051 0.005416374 0.02335165 0.04464438</code></pre>
   border-bottom-color: #D3D3D3;
 }
 
-#ekxtnxfljl .gt_footnotes {
+#uijihcxypf .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -589,7 +543,7 @@ point_difference 0.03419051 0.005416374 0.02335165 0.04464438</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#ekxtnxfljl .gt_footnote {
+#uijihcxypf .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -598,7 +552,7 @@ point_difference 0.03419051 0.005416374 0.02335165 0.04464438</code></pre>
   padding-right: 5px;
 }
 
-#ekxtnxfljl .gt_sourcenotes {
+#uijihcxypf .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -612,7 +566,7 @@ point_difference 0.03419051 0.005416374 0.02335165 0.04464438</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#ekxtnxfljl .gt_sourcenote {
+#uijihcxypf .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -620,72 +574,72 @@ point_difference 0.03419051 0.005416374 0.02335165 0.04464438</code></pre>
   padding-right: 5px;
 }
 
-#ekxtnxfljl .gt_left {
+#uijihcxypf .gt_left {
   text-align: left;
 }
 
-#ekxtnxfljl .gt_center {
+#uijihcxypf .gt_center {
   text-align: center;
 }
 
-#ekxtnxfljl .gt_right {
+#uijihcxypf .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#ekxtnxfljl .gt_font_normal {
+#uijihcxypf .gt_font_normal {
   font-weight: normal;
 }
 
-#ekxtnxfljl .gt_font_bold {
+#uijihcxypf .gt_font_bold {
   font-weight: bold;
 }
 
-#ekxtnxfljl .gt_font_italic {
+#uijihcxypf .gt_font_italic {
   font-style: italic;
 }
 
-#ekxtnxfljl .gt_super {
+#uijihcxypf .gt_super {
   font-size: 65%;
 }
 
-#ekxtnxfljl .gt_footnote_marks {
+#uijihcxypf .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#ekxtnxfljl .gt_asterisk {
+#uijihcxypf .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#ekxtnxfljl .gt_indent_1 {
+#uijihcxypf .gt_indent_1 {
   text-indent: 5px;
 }
 
-#ekxtnxfljl .gt_indent_2 {
+#uijihcxypf .gt_indent_2 {
   text-indent: 10px;
 }
 
-#ekxtnxfljl .gt_indent_3 {
+#uijihcxypf .gt_indent_3 {
   text-indent: 15px;
 }
 
-#ekxtnxfljl .gt_indent_4 {
+#uijihcxypf .gt_indent_4 {
   text-indent: 20px;
 }
 
-#ekxtnxfljl .gt_indent_5 {
+#uijihcxypf .gt_indent_5 {
   text-indent: 25px;
 }
 
-#ekxtnxfljl .katex-display {
+#uijihcxypf .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#ekxtnxfljl div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#uijihcxypf div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -735,18 +689,10 @@ point_difference 0.03419051 0.005416374 0.02335165 0.04464438</code></pre>
 </div>
 </div>
 </div>
-<pre><code>**Age:**
-•   Mean (27.21): On average, Kobe Bryant was 27.21 years old during the period covered by the data. He played his most games this year. In sports terms this would be considered his 'prime'.
-•   Standard Deviation (5.13): There was a variability of 5.13 years in his age across the dataset, indicating the spread of ages around the mean.
-**Turnovers:**
-•   Mean (3.02): Kobe committed an average of 3.02 turnovers per game.
-•   Standard Deviation (1.87): The number of turnovers varied by 1.87 from the mean, reflecting how much turnover counts fluctuated in different games.
-**Point Difference:**
-•   Mean (3.03): On average, the point difference in games involving Kobe was 3.03 points, meaning his games were decided by this margin.
-•   Standard Deviation (13.10): There was a high variability of 13.10 in the point difference, showing that some games had very large margins of victory or defeat.
-**Assists:**
-•   Mean (4.83): Kobe averaged 4.83 assists per game.
-•   Standard Deviation (2.71): The number of assists varied by 2.71 from the mean, indicating how much the assists count fluctuated in his games.</code></pre>
+<p>Age: • Mean (27.21): On average, Kobe Bryant was 27.21 years old during the period covered by the data. He played his most games this year. In sports terms this would be considered his ‘prime’.</p>
+<p>Turnovers: • Mean (3.02): Kobe committed an average of 3.02 turnovers per game.</p>
+<p>Point Difference: • Mean (3.03): On average, the point difference in games involving Kobe was 3.03 points, meaning his games were decided by this margin.</p>
+<p>Assists: • Mean (4.83): Kobe averaged 4.83 assists per game.</p>
 
 
 
