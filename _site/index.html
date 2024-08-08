@@ -104,6 +104,10 @@ ul.task-list li input[type="checkbox"] {
     <a class="nav-link" href="./sources.html"> 
 <span class="menu-text">Sources</span></a>
   </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./analysis.html"> 
+<span class="menu-text">More Plots</span></a>
+  </li>  
 </ul>
           </div> <!-- /navcollapse -->
           <div class="quarto-navbar-tools">
@@ -140,12 +144,12 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>Many people have accused Kobe Bryant of being a ball-hog. I wanted to see what would statistically increase the chances of Kobe passing a ball in a given game. Using a dataset with each and every stat recorded of Kobe Bryant from the start of his career to his retirement, we seek to predict what will increase Kobe’s likelihood of passing more in a game. We modeled assists as a linear function, with variables like Kobe’s age, the amount of turnovers by Kobe, and the point_difference in a game. With each increase in point difference, Kobe is 3% more likely to pass the ball. Overall, Kobe’s playstyle did not change much throughout his career, he most always relied on his own shot-making abilities to affect the game but if they were at a disadvantage, for every point there opponent was winning by, his chances of passing increased by 3%.</p>
+<p>Many people have accused Kobe Bryant of being a ball-hog. I wanted to see what would statistically increase the chances of Kobe passing a ball in a given game. Using a dataset with each and every stat recorded of Kobe Bryant from the start of his career to his retirement, we seek to predict what will increase Kobe’s likelihood of passing more in a game. We modeled assists as a linear function, with variables like Kobe’s age, the amount of turnovers by Kobe, and the point_difference in a game. Overall, Kobe’s playstyle did not change much throughout his career, he most always relied on his own shot-making abilities to affect the game but if they were at a disadvantage, for every point there opponent was winning by, his chances of passing increased by 3%.</p>
 <div class="cell">
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="kobe.png" class="img-fluid figure-img"></p>
+<p><img src="kobe.png" width="250" height="300" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -155,31 +159,6 @@ ul.task-list li input[type="checkbox"] {
 <div>
 <figure class="figure">
 <p><img src="index_files/figure-html/unnamed-chunk-5-1.gif" class="img-fluid figure-img"></p>
-</figure>
-</div>
-</div>
-</div>
-<div class="cell">
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="index_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-<div class="cell">
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="index_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="index_files/figure-html/unnamed-chunk-7-2.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -269,7 +248,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   });
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp("https:\/\/anshkare\.github\.io\/kobe-project\/");
+      var filterRegex = new RegExp("https:\/\/anshk\.quarto\.pub\/kobe-project");
     var isInternal = (href) => {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }

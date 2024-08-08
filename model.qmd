@@ -5,7 +5,7 @@ title: "Model"
 ```{r, echo=FALSE, results='asis'}
 cat("$$\n\\text{assists} = \\beta_0 + \\beta_1 \\cdot \\text{age} + \\beta_2 \\cdot \\text{turnovers} + \\beta_3 \\cdot \\text{point\\_difference} + \\epsilon\n$$")
 ```
-
+The formula models Kobe Bryant’s assists as a linear function of his age, the number of turnovers he makes , and the point difference in a game, including a random error term. This equation helps us understand how each factor statistically influences Kobe’s likelihood of passing the ball during a game.
 
 
 ```{r}

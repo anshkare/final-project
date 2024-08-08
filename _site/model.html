@@ -133,6 +133,10 @@ window.Quarto = {
     <a class="nav-link" href="./sources.html"> 
 <span class="menu-text">Sources</span></a>
   </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./analysis.html"> 
+<span class="menu-text">More Plots</span></a>
+  </li>  
 </ul>
           </div> <!-- /navcollapse -->
           <div class="quarto-navbar-tools">
@@ -172,6 +176,7 @@ window.Quarto = {
 <p><span class="math display">\[
 \text{assists} = \beta_0 + \beta_1 \cdot \text{age} + \beta_2 \cdot \text{turnovers} + \beta_3 \cdot \text{point\_difference} + \epsilon
 \]</span></p>
+<p>The formula models Kobe Bryant’s assists as a linear function of his age, the number of turnovers he makes , and the point difference in a game, including a random error term. This equation helps us understand how each factor statistically influences Kobe’s likelihood of passing the ball during a game.</p>
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -778,7 +783,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   });
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp("https:\/\/anshkare\.github\.io\/kobe-project\/");
+      var filterRegex = new RegExp("https:\/\/anshk\.quarto\.pub\/kobe-project");
     var isInternal = (href) => {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }

@@ -4,7 +4,7 @@ title: "About"
 
 About this site
 
-I am a highschooler at Green Level, who is interested in data science and AI.
+I am a highschooler at Green Level, who is interested in data science and AI. This project was created to analyze Kobe Bryant's Assists Per Game and what would increase the chances of him passing.
 
 [My Github](https://github.com/anshkare)
 

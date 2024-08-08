@@ -10,6 +10,7 @@ website:
       - about.qmd
       - model.qmd
       - sources.qmd
+      - analysis.qmd
 
 format:
   html:

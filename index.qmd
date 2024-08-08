@@ -4,7 +4,7 @@ title: "Analyzing Kobe's Assists"
 format: html
 ---
 
-Many people have accused Kobe Bryant of being a ball-hog. I wanted to see what would statistically increase the chances of Kobe passing a ball in a given game. Using a dataset with each and every stat recorded of Kobe Bryant from the start of his career to his retirement, we seek to predict what will increase Kobe's likelihood of passing more in a game. We modeled assists as a linear function, with variables like Kobe's age, the amount of turnovers by Kobe, and the point_difference in a game. With each increase in point difference, Kobe is 3% more likely to pass the ball. Overall, Kobe's playstyle did not change much throughout his career, he most always relied on his own shot-making abilities to affect the game but if they were at a disadvantage, for every point there opponent was winning by, his chances of passing increased by 3%. 
+Many people have accused Kobe Bryant of being a ball-hog. I wanted to see what would statistically increase the chances of Kobe passing a ball in a given game. Using a dataset with each and every stat recorded of Kobe Bryant from the start of his career to his retirement, we seek to predict what will increase Kobe's likelihood of passing more in a game. We modeled assists as a linear function, with variables like Kobe's age, the amount of turnovers by Kobe, and the point_difference in a game. Overall, Kobe's playstyle did not change much throughout his career, he most always relied on his own shot-making abilities to affect the game but if they were at a disadvantage, for every point there opponent was winning by, his chances of passing increased by 3%. 
 ```{r include = FALSE, message=FALSE}
 #| echo: false
 library(tidyverse)
@@ -15,7 +15,7 @@ library(knitr)
 ```
 
 
-```{r echo=FALSE}
+```{r echo=FALSE, out.height="300px", out.width="250"}
 knitr::include_graphics("kobe.png")
 
 ```
@@ -54,10 +54,8 @@ fit <- brm(
   refresh = 0,
   seed = 9
 )
-# Obtain posterior predictions
 preds <- posterior_predict(fit)
 
-# Calculate the mean of the predictions
 kobe_data$predicted_assists <- apply(preds, 2, mean)
 ```
 
@@ -70,11 +68,9 @@ library(gganimate)
 library(dplyr)
 library(readr)
 
-# Ensure age is treated as a whole number for animation purposes
 kobebryant <- kobe_data %>%
   mutate(age = round(age))
 
-# Create the animated graph
 p <- ggplot(kobebryant, aes(x = turnovers, y = assists, color = point_difference, group = age)) +
   geom_point(size = 2)  +
   theme(axis.text = element_text(colour = "#552583"),
@@ -90,55 +86,8 @@ p <- ggplot(kobebryant, aes(x = turnovers, y = assists, color = point_difference
   transition_time(age) +
   ease_aes('linear')
 
-# Animate the plot
 animated_plot <- animate(p, duration =30 , fps = 10, end_pause = 10)
 animated_plot
 ```
-
-
-```{r echo=FALSE}
-# Create a new data frame with a range of 'age' values while holding others constant
-age_range <- seq(min(kobe_data$age), max(kobe_data$age), length.out = 100)
-predictor_data <- data.frame(
-  age = age_range,
-  turnovers = mean(kobe_data$turnovers),
-  point_difference = mean(kobe_data$point_difference)
-)
-
-# Predict assists for these values
-predictions <- fitted(fit, newdata = predictor_data, re_formula = NULL)
-predictor_data$predicted_assists <- rowMeans(predictions)
-
-# Plot
-ggplot(predictor_data, aes(x = age, y = predicted_assists)) +
-  geom_jitter(color = "#F1C40F") +
-  labs(x = "Age", y = "Predicted Assists",
-       title = "Effect of Age on Kobe's Predicted Assists") +
-  theme_minimal()
-```
-
-```{r echo=FALSE}
-# Plot for Turnovers vs. Assists
-p1 <- ggplot(kobe_data, aes(x = turnovers, y = assists)) +
-  geom_jitter(color = "#c57af6")+
-  labs(title = "Turnovers vs. Assists",
-       x = "Turnovers",
-       y = "Assists") +
-  theme_minimal()
-
-# Plot for Point Difference vs. Assists
-p2 <- ggplot(kobe_data, aes(x = point_difference, y = assists)) +
-  geom_point(aes(color = point_difference)) +
-  scale_color_gradient(low = "#9d3ab6", high = "#fbd72d") +
-  labs(title = "Point Difference vs. Assists",
-       x = "Point Difference",
-       y = "Assists") +
-  theme_minimal()
-
-# Print the plots
-print(p1)
-print(p2)
-```
-
 
 

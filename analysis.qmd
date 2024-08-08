@@ -1,10 +1,9 @@
 ---
-title: "Kobe Model"
-author: "Ansh Kare"
+title: "More Plots"
 format: html
 ---
 
-```{r}
+```{r echo=FALSE, include=FALSE, message=FALSE}
 library(tidyverse)
 library(brms)
 library(dplyr)
@@ -13,7 +12,7 @@ library(readr)
 ```
 
 
-```{r}
+```{r echo=FALSE, include=FALSE, message=FALSE}
 
 
 kobe_data <- read_csv("kobebryant.csv")
@@ -33,7 +32,8 @@ kobe_data$season <- as.numeric(kobe_data$season)
 kobe_data <- na.omit(kobe_data)
 
 ```
-```{r}
+
+```{r echo=FALSE, message=FALSE, include=FALSE}
 
 fit <- brm(
   formula = assists ~ age + turnovers + point_difference ,
@@ -48,8 +48,50 @@ fit <- brm(
 )
 
 ```
+These are the individual factors I used showed separately.
 
-```{r}
-fixef(fit)
+```{r echo=FALSE}
+age_range <- seq(min(kobe_data$age), max(kobe_data$age), length.out = 100)
+predictor_data <- data.frame(
+  age = age_range,
+  turnovers = mean(kobe_data$turnovers),
+  point_difference = mean(kobe_data$point_difference)
+)
+
+# Predict assists for these values
+predictions <- fitted(fit, newdata = predictor_data, re_formula = NULL)
+predictor_data$predicted_assists <- rowMeans(predictions)
+
+# Plot
+ggplot(predictor_data, aes(x = age, y = predicted_assists)) +
+  geom_jitter(color = "#F1C40F") +
+  labs(x = "Age", y = "Predicted Assists",
+       title = "Effect of Age on Kobe's Predicted Assists") +
+  theme_minimal()
 ```
+
+```{r echo=FALSE}
+# Plot for Turnovers vs. Assists
+p1 <- ggplot(kobe_data, aes(x = turnovers, y = assists)) +
+  geom_jitter(color = "#c57af6")+
+  labs(title = "Turnovers vs. Assists",
+       x = "Turnovers",
+       y = "Assists") +
+  theme_minimal()
+
+# Plot for Point Difference vs. Assists
+p2 <- ggplot(kobe_data, aes(x = point_difference, y = assists)) +
+  geom_point(aes(color = point_difference)) +
+  scale_color_gradient(low = "#9d3ab6", high = "#fbd72d") +
+  labs(title = "Point Difference vs. Assists",
+       x = "Point Difference",
+       y = "Assists") +
+  theme_minimal()
+
+# Print the plots
+print(p1)
+print(p2)
+```
+
+
 
